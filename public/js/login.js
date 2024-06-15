@@ -21,6 +21,32 @@ function validatePAN(pan) {
 
 
 
+//Real-time Validation
+const inputs = document.querySelectorAll("#login-form input");
+inputs.forEach(input => {
+    input.addEventListener('input', validateInput);
+});
+
+function validateInput(event) {
+    const input = event.target;
+    const errorId = input.id + "Error";
+    const errorElement = document.getElementById(errorId);
+
+    switch (input.id) {
+        case 'name':
+            errorElement.textContent = validateName(input.value) ? "" : "Name must contain only alphabets";
+            break;
+        case 'dob':
+            errorElement.textContent = validateDOB(input.value) ? "" : "Invalid DOB (age 18-120, no future dates)";
+            break;
+        case 'pan':
+            errorElement.textContent = validatePAN(input.value) ? "" : "Invalid PAN format (e.g., ABCDE1234F)";
+            break;
+        case 'phoneNumber':
+            errorElement.textContent = input.value.length < 10 ? "Mobile number must be at least 10 digits" : "";
+            break;
+    }
+}
 
 
 
@@ -160,16 +186,19 @@ function displayError(message) {
 
 
 
-function displayError(message) {
-    const button = document.querySelector("#login-form button");
-    const errorMessageElement = document.createElement('p');
-    errorMessageElement.textContent = message;
-    errorMessageElement.classList.add("text-red-500", "text-sm", "error-message");
-    button.parentNode.insertBefore(errorMessageElement, button);
-}
+// function displayError(message) {
+//     const button = document.querySelector("#login-form button");
+//     const errorMessageElement = document.createElement('p');
+//     errorMessageElement.textContent = message;
+//     errorMessageElement.classList.add("text-red-500", "text-sm", "error-message");
+//     button.parentNode.insertBefore(errorMessageElement, button);
+// }
 
 
 function verifyOTP() {
+    const verifyButton = document.getElementById('verifyButton'); // Get the button element
+    verifyButton.disabled = true;
+    verifyButton.textContent = 'Verifying...';
     const otp = document.getElementById('otp').value;
     const code = document.getElementById('countryCode').value;
     const phoneNumber = document.getElementById('phoneNumber').value.trim();
@@ -196,6 +225,8 @@ function verifyOTP() {
             localStorage.setItem('token', data.token);
             window.location.href = '/reward';
         } else {
+            verifyButton.disabled = false;
+            verifyButton.textContent = 'Verify';
             let errorElement = document.getElementById('otpError'); 
             if (!errorElement) { 
               errorElement = document.createElement('p'); 
@@ -209,4 +240,3 @@ function verifyOTP() {
         }
     });
 }
-
