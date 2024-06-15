@@ -2,7 +2,8 @@ function tcon1() {
     confetti({
         particleCount: 100,
         spread: 70,
-        origin: { y: 0.6 }
+        origin: { y: 0.6 },
+        colors: ['rgba(255, 255, 255, 1)']
     });
 }
 
@@ -35,32 +36,6 @@ function goHome() {
 }
 
 
-// function triggerConfetti() {
-//     const duration = 3 * 1000; 
-//     tcon1()
-
-//     // Stop the confetti after 3 seconds
-//     setTimeout(() => {
-//         // Stop confetti immediately
-//         Confetti.reset();
-//     }, duration);
-// }
-
-
-// function triggerConfetti() {
-//     const duration = 3 * 1000; 
-//     tcon1();
-
-//     // Stop the confetti after 3 seconds
-//     setTimeout(() => {
-//         // The confetti library does not have a reset function by default. 
-//         // You can create a function to clear the canvas if needed.
-//         const confettiCanvas = document.querySelector('canvas');
-//         if (confettiCanvas) {
-//             confettiCanvas.remove();
-//         }
-//     }, duration);
-// }
 
 function triggerConfetti() {
     const duration = 3 * 1000; 
