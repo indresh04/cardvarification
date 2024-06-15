@@ -13,6 +13,10 @@
             font-size: 0.8rem;
             margin-top: 0.25rem; 
         }
+        #countryCode {
+            display: none;
+        }
+
     </style>
 </head>
 <body>
@@ -20,8 +24,8 @@
         <div class="flex justify-center">
             <div class="w-full max-w-md p-4 rounded-md shadow-sm">
                 <div class="text-center mb-4">
-                    <img src="/images/logo.png" alt="Logo" class="w-100 h-40 mx-auto mb-2">
-                    <h1 class="text-3xl font-bold">Login</h1>
+                    <img src="/images/logo.png" alt="Logo" class="w-100 h-20 mx-auto mb-2">
+                    <h1 class="text-s ">Fill the details to claim reward points</h1>
                 </div>
 
                 <form id="login-form">
@@ -37,14 +41,14 @@
                         <div id="dobError" class="error-message"></div>
                     </div>
                     
-                    <div class="mb-4 flex"> 
+                    <div class="mb-4"> 
                         <div class="w-1/4 mr-2">
-                            <label for="countryCode" class="block text-gray-700 font-bold mb-2">Code:</label>
+                            <label for="countryCode" class="block text-gray-700 font-bold mb-2"></label>
                             <select id="countryCode" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                <option value="+91">+91 (India)</option>
+                                <option value="+91">+91</option>
                                 </select> 
                         </div>
-                        <div class="w-3/4">
+                        <div class=" ">
                             <label for="phoneNumber" class="block text-gray-700 font-bold mb-2">Phone Number:</label>
                             <input type="tel" id="phoneNumber" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                         </div>

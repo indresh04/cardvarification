@@ -33,6 +33,7 @@ const serviceSid = process.env.TWILIO_SERVICE_SID;
 const client = twilio(accountSid, authToken);
 
 const authenticateJWT = (req, res, next) => {
+  // next();
   const token = req.cookies.token; // Get JWT from cookie
   if (token) {
     const user = verifyToken(token);
