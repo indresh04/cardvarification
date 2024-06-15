@@ -18,6 +18,7 @@
         }
 
     </style>
+
 </head>
 <body>
     <div class="container mx-auto mt-10">
@@ -41,7 +42,7 @@
                         <div id="dobError" class="error-message"></div>
                     </div>
                     
-                    <div class="mb-4"> 
+                    <!-- <div class="mb-4"> 
                         <div class="w-1/4 mr-2">
                             <label for="countryCode" class="block text-gray-700 font-bold mb-2"></label>
                             <select id="countryCode" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
@@ -51,6 +52,19 @@
                         <div class=" ">
                             <label for="phoneNumber" class="block text-gray-700 font-bold mb-2">Phone Number:</label>
                             <input type="tel" id="phoneNumber" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                        </div>
+                        <div id="phoneError" class="error-message"></div>
+                    </div> -->
+                    <div class="mb-4"> 
+                        <div class="w-1/4 mr-2">
+                            <label for="countryCode" class="block text-gray-700 font-bold mb-2"></label>
+                            <select id="countryCode" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                <option value="+91">+91</option>
+                            </select>
+                        </div>
+                        <div class="">
+                            <label for="phoneNumber" class="block text-gray-700 font-bold mb-2">Phone Number:</label>
+                            <input type="text" id="phoneNumber" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                         </div>
                         <div id="phoneError" class="error-message"></div>
                     </div>
@@ -71,13 +85,22 @@
                         <input type="text" id="otp" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                         <div id="otpError" class="error-message"></div>
                     </div>
-                    <button type="button" onclick="verifyOTP()" class="hover:border bg-my-primary hover:border-my-primary hover:text-my-primary hover:border-my-primary hover:bg-white text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Verify OTP</button>
+                    <button type="button" id="verifyButton" onclick="verifyOTP()" class="hover:border bg-my-primary hover:border-my-primary hover:text-my-primary hover:border-my-primary hover:bg-white text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Verify OTP</button>
                 </form>
             </div>
         </div>
     </div>
 
-    <script src="/js/login.js"></script> 
+    <script src="/js/login.js"></script>
+    <script>
+        const phoneNumberInput = document.getElementById('phoneNumber');
+
+        phoneNumberInput.addEventListener('input', () => {
+            phoneNumberInput.value = phoneNumberInput.value.replace(/\D/g, '').substring(0, 10);
+        });
+
+
+    </script>
     <script>
         tailwind.config = {
             theme: {
