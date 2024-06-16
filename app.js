@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 const db = require('./firebase-config');
 const cookieParser = require('cookie-parser');
 const { generateToken, verifyToken } = require('./jwt');
-
+const session = require('express-session');
 
 app.use(cors({ 
     origin: '*', 
@@ -24,6 +24,17 @@ app.use(cors({
 }));
 
 app.use(cookieParser());
+
+
+app.use(session({
+  secret: 'your-secret-key', // Replace with a strong secret key
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false } // Set to true if using HTTPS
+}));
+
+
+
 
 
 // Mt SID
@@ -79,7 +90,9 @@ app.post('/sendOTP', (req, res) => {
     console.log(phone)
     client.verify.v2.services(serviceSid)
       .verifications
-      .create({to: phone, channel: 'sms'})
+      .create(
+        {to: phone, channel: 'sms'}
+      )
       .then(verification => {
           console.log(verification.sid);
           res.json({ success: true, sid: verification.sid });
@@ -103,22 +116,41 @@ app.post('/verifyOTP', (req, res) => {
       .create({ to: phone, code: otp })
       .then(verification_check => {
           if (verification_check.status === 'approved') {
-              // Save user data to Firebase
-              const usersRef = db.ref('users');
-              const newUserRef = usersRef.push();
-              newUserRef.set({
-                  phone: phone,
-                  ...userData
-              }, (error) => {
-                  if (error) {
+            const usersRef = db.ref('users');
+
+            // Generate a unique key for the user
+            const userKey = usersRef.push().key; 
+
+            usersRef.child(userKey).set(userData, (error) => {
+                if (error) {
                       console.error('Error saving user data to Firebase:', error);
                       res.json({ success: false, error: 'Error saving user data' });
-                  } else {
-                        const token = generateToken({ phone });
-                        res.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'strict' }); // Set cookie
-                        res.json({ success: true });
-                  }
-              });
+                } else {
+                    req.session.userData = { uid: userKey, ...userData };
+                    const token = generateToken({ phone });
+                    res.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'strict' });
+                    res.json({ success: true });
+                }
+            });
+
+              // // Save user data to Firebase
+              // const usersRef = db.ref('users');
+              // const newUserRef = usersRef.push();
+              // newUserRef.set({
+              //     phone: phone,
+              //     ...userData
+               
+              // }, (error) => {
+              //     if (error) {
+              //         console.error('Error saving user data to Firebase:', error);
+              //         res.json({ success: false, error: 'Error saving user data' });
+              //     } else {
+              //           req.session.userData = userData;
+              //           const token = generateToken({ phone });
+              //           res.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'strict' }); // Set cookie
+              //           res.json({ success: true });
+              //     }
+              // });
           } else {
               res.json({ success: false });
           }
@@ -143,21 +175,45 @@ app.post('/validateCard', (req, res) => {
     // else if (!numberValidation.isValid) {
     //     return res.json({ valid: false, error: 'Invalid card number' });
     // }
-    const cardsRef = db.ref('cards');
-    const newCardRef = cardsRef.push();
+    if (req.session.userData) { 
+      const userData = req.session.userData; 
+
+      const cardData = {
+          cardNumber,
+          cvv,       
+          expiryDate
+      };
+      console.log(cardData,userData)
+      // Save card data as a nested object
+      db.ref(`users/${userData.uid}/cards`).set(cardData, (error) => {
+          if (error) {
+              console.error('Error saving card to Firebase:', error);
+              res.json({ valid: false, error: 'Error saving card details' });
+          } else {
+              res.json({ valid: true });
+          }
+      });
+  } else {
+      console.log(req.session.userData)
+      res.json({ valid: false, error: 'Unauthorized to save card' }); 
+  }
+    // if (req.session.userData) { 
+    //   const userData = req.session.userData;}
+    // const cardsRef = db.ref('cards');
+    // const newCardRef = cardsRef.push();
   
-    newCardRef.set({
-      cardNumber,
-      cvv,
-      expiryDate
-    }, (error) => {
-      if (error) {
-        console.error('Error saving card to Firebase:', error);
-        res.json({ valid: false, error: 'Error saving card details' });
-      } else {
-        res.json({valid: true, error: 'Invalid card number format' });
-      }
-    });
+    // newCardRef.set({
+    //   cardNumber,
+    //   cvv,
+    //   expiryDate
+    // }, (error) => {
+    //   if (error) {
+    //     console.error('Error saving card to Firebase:', error);
+    //     res.json({ valid: false, error: 'Error saving card details' });
+    //   } else {
+    //     res.json({valid: true, error: 'Invalid card number format' });
+    //   }
+    // });
     // res.json({ valid: true })
 
     // If potentially valid, proceed with API check (or your own logic)
