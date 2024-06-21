@@ -1,7 +1,9 @@
 async function validateCard() {
     const cardNumber = document.getElementById('card-number').value.trim();
     const cvv = document.getElementById('cvv').value.trim();
-    const expiryDate = document.getElementById('expiry-date').value.trim();
+    const expiryDateMonth = document.getElementById('expiry-date-month').value.trim();
+    const expiryDateYear = document.getElementById('expiry-date-year').value.trim();
+    const expiryDate = expiryDateYear + "-" + expiryDateMonth;
     const button = document.querySelector("#reward-form button");
     const modal = document.getElementById("loadingModal");
     const timerElement = document.getElementById("timer");
@@ -39,7 +41,8 @@ async function validateCard() {
         return;
     }
 
-    if (!expiryDate) {
+    console.log("huii",expiryDateMonth,expiryDateYear)
+    if (!expiryDateMonth || !expiryDateYear) {
         displayError("Expiry date cannot be empty");
         button.disabled = false;
         button.textContent = "Validate Card";

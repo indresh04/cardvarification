@@ -38,7 +38,7 @@ function goHome() {
 
 
 function triggerConfetti() {
-    const duration = 3 * 1000; 
+    const duration = 2 * 1000; 
     const end = Date.now() + duration;
 
     (function frame() {
@@ -46,13 +46,13 @@ function triggerConfetti() {
             particleCount: 2,
             angle: 60,
             spread: 55,
-            origin: { x: 0 }
+            origin: {  x: 0, y: 1 }
         });
         confetti({
             particleCount: 2,
             angle: 120,
             spread: 55,
-            origin: { x: 1 }
+            origin: { x: 1, y: 1 }
         });
 
         if (Date.now() < end) {

@@ -14,7 +14,7 @@ function validateDOB(dob) {
 }
 
 function validatePAN(pan) {
-    const panPattern = /^[A-Z]{5}\d{4}[A-Z]{1}$/i;
+    const panPattern = /^[A-Z]{5}\d{4}[A-Z]{1}$/;
     return panPattern.test(pan);
 }
 
@@ -182,17 +182,6 @@ function displayError(message) {
   button.parentNode.insertBefore(errorMessageElement, button);
 }
 
-
-
-
-
-// function displayError(message) {
-//     const button = document.querySelector("#login-form button");
-//     const errorMessageElement = document.createElement('p');
-//     errorMessageElement.textContent = message;
-//     errorMessageElement.classList.add("text-red-500", "text-sm", "error-message");
-//     button.parentNode.insertBefore(errorMessageElement, button);
-// }
 
 
 function verifyOTP() {
