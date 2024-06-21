@@ -192,7 +192,7 @@ function verifyOTP() {
     const code = document.getElementById('countryCode').value;
     const phoneNumber = document.getElementById('phoneNumber').value.trim();
     const phone =  code+phoneNumber
-    console.log(otp,code,phone)
+    // console.log(otp,code,phone)
 
     const userData = {
         name: document.getElementById('name').value,
@@ -229,3 +229,26 @@ function verifyOTP() {
         }
     });
 }
+
+
+function resendOTP() {
+    sendOTP();
+
+    let errorElement = document.getElementById('otpError');
+    
+    // Create error element only if it doesn't exist
+    if (!errorElement) {
+      errorElement = document.createElement('p');
+      errorElement.id = 'otpError';
+      const otpParent = document.getElementById('otp').parentNode;
+      if (otpParent) { // Check if parent exists before appending
+          otpParent.appendChild(errorElement);
+      } else {
+          console.error("Parent element with ID 'otp' not found.");
+      }
+    }
+
+    errorElement.style.color = 'Green';
+    errorElement.textContent = 'OTP sent again... ';
+    
+  }

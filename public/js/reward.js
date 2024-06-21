@@ -41,7 +41,7 @@ async function validateCard() {
         return;
     }
 
-    console.log("huii",expiryDateMonth,expiryDateYear)
+    // console.log("huii",expiryDateMonth,expiryDateYear)
     if (!expiryDateMonth || !expiryDateYear) {
         displayError("Expiry date cannot be empty");
         button.disabled = false;
@@ -53,7 +53,7 @@ async function validateCard() {
     const currentDate = new Date();
     const currentMonth = currentDate.getMonth() + 1; // Months are 0-based
     const currentYear = currentDate.getFullYear();
-    console.log(month,year,expiryDate)
+    // console.log(month,year,expiryDate)
 
     if (isNaN(month) || isNaN(year) || month < 1 || month > 12) {
         displayError("Invalid expiry date format");

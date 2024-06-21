@@ -72,7 +72,10 @@
                         <input type="text" id="otp" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                         <div id="otpError" class="error-message"></div>
                     </div>
+                    <div class="flex justify-between w-full">
                     <button type="button" id="verifyButton" onclick="verifyOTP()" class="hover:border bg-my-primary hover:border-my-primary hover:text-my-primary hover:border-my-primary hover:bg-white text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Verify OTP</button>
+                    <a onclick="resendOTP()" class="hover:border hover:border-my-primary hover:text-my-primary text-my-primary font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline cursor-pointer">Resend OTP</a>
+                    </div>
                 </form>
             </div>
         </div>

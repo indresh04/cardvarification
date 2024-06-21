@@ -85,6 +85,7 @@ app.get('*', (req, res) => {
 
 
 app.post('/sendOTP', (req, res) => {
+  // console.log("OTP sent to",req.body)
     // res.json({ success: true});
     const { phone } = req.body;
     console.log(phone)
