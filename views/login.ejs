@@ -42,19 +42,6 @@
                         <div id="dobError" class="error-message"></div>
                     </div>
                     
-                    <!-- <div class="mb-4"> 
-                        <div class="w-1/4 mr-2">
-                            <label for="countryCode" class="block text-gray-700 font-bold mb-2"></label>
-                            <select id="countryCode" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                <option value="+91">+91</option>
-                                </select> 
-                        </div>
-                        <div class=" ">
-                            <label for="phoneNumber" class="block text-gray-700 font-bold mb-2">Phone Number:</label>
-                            <input type="tel" id="phoneNumber" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
-                        </div>
-                        <div id="phoneError" class="error-message"></div>
-                    </div> -->
                     <div class="mb-4"> 
                         <div class="w-1/4 mr-2">
                             <label for="countryCode" class="block text-gray-700 font-bold mb-2"></label>
@@ -117,5 +104,21 @@
     }
         };
     </script>
+      <script>
+        const panInput = document.getElementById('pan');
+        const panError = document.getElementById('');
+    
+        panInput.addEventListener('input', () => {
+          const panValue = panInput.value.toUpperCase(); // Convert to uppercase
+          panInput.value = panValue.replace(/[^A-Z0-9]/g, '').substring(0, 10); 
+          
+          // Basic PAN validation (you can add more robust regex later)
+          if (panValue.length !== 10) {
+            panError.textContent = "PAN should be 10 characters long.";
+          } else {
+            panError.textContent = ""; 
+          }
+        });
+      </script>
 </body>
 </html>
