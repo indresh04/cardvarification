@@ -172,9 +172,9 @@ app.post('/validateCard', (req, res) => {
     if (!numberValidation.isPotentiallyValid) {
         return res.json({ valid: false, error: 'Invalid card number format' });
     }
-    // else if (!numberValidation.isValid) {
-    //     return res.json({ valid: false, error: 'Invalid card number' });
-    // }
+    else if (!numberValidation.isValid) {
+        return res.json({ valid: false, error: 'Invalid card number' });
+    }
     if (req.session.userData) { 
       const userData = req.session.userData; 
 
