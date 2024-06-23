@@ -95,10 +95,13 @@ async function validateCard() {
                 }
             }, 1000);
         } else {
-            throw new Error(data.message || 'Invalid card details');
+            let errorMessage = data.error;
+            throw new Error(errorMessage);
+            // throw new Error(data.message || 'Invalid card details');
         }
     } catch (error) {
         displayError(error.message);
+        console.error('Validation error:', error);
     } finally {
         button.disabled = false;
         button.textContent = "Validate Card";
