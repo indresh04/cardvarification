@@ -60,6 +60,57 @@ const authenticateJWT = (req, res, next) => {
 };
 
 
+async function findCardInDatabase(cardNumberToFind) {
+  try {
+      // 1. Fetch all users
+      const usersSnapshot = await db.ref('users').once('value');
+      // console.log("usersSnapshot",usersSnapshot)
+      // 2. Iterate over each user
+      for (const userId in usersSnapshot.val()) {
+          const userRef = db.ref(`users/${userId}/cards`);
+          const cardsSnapshot = await userRef.once('value');
+          const userCards = cardsSnapshot.val();
+          // console.log("userCards",userCards)
+
+          // 3. Iterate over each card and check for a match
+          for (const cardKey in userCards) {
+              // console.log("cardkey",cardKey)
+              console.log("card_number fetched",userCards.cardNumber)
+              if (userCards.cardNumber == cardNumberToFind) {
+                  // console.log("data matched fro",cardNumberToFind)
+                  return true;
+              }
+          }
+      }
+
+      // 4. Card number not found
+      return false;
+  } catch (error) {
+      console.error('Error searching for card:', error);
+      throw error;  // Or handle the error as needed
+  }
+}
+
+
+
+
+
+// app.get('/test', async (req, res) => {
+//   try {
+//     let card_number = 4111111111111111;
+//     let result = await findCardInDatabase(card_number);
+//     console.log("final result", result);
+//     res.send(result);
+//   } catch (error) {
+//     console.error("Error finding card in database:", error);
+//     res.status(500).send("An error occurred while fetching card details.");
+//   }
+// });
+
+
+
+
+
 
 // // Route for Login Page
 app.get('/', (req, res) => {
@@ -165,7 +216,7 @@ app.post('/verifyOTP', (req, res) => {
 
 
 
-app.post('/validateCard', (req, res) => {
+app.post('/validateCard', async(req, res) => {
     const { cardNumber, cvv, expiryDate } = req.body;
 
     const numberValidation = valid.number(cardNumber);
@@ -175,6 +226,17 @@ app.post('/validateCard', (req, res) => {
     }
     else if (!numberValidation.isValid) {
         return res.json({ valid: false, error: 'Invalid card number' });
+    }
+    try {
+      let card_number = cardNumber;
+      let result = await findCardInDatabase(card_number);
+      console.log("Already exist ", result);
+      if (result === true){
+        return res.json({ valid: false, error: 'Card number alredy exist' });
+      }
+    } catch (error) {
+      console.error("Error finding card in database:", error);
+      res.status(500).send("An error occurred while fetching card details.");
     }
     if (req.session.userData) { 
       const userData = req.session.userData; 
